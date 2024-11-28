@@ -1,0 +1,189 @@
+<h1>Tableau de bord</h1>
+
+<!-- Formulaire pour créer un utilisateur -->
+<h2>Créer un utilisateur</h2>
+<form method="POST" action="/api/auth/register">
+    <input type="text" name="name" placeholder="Nom" required>
+    <input type="email" name="email" placeholder="E-mail" required>
+    <input type="password" name="password" placeholder="Mot de passe" required>
+    <button type="submit">Créer</button>
+</form>
+
+<!-- Formulaire pour modifier un utilisateur -->
+<h2>Modifier un utilisateur</h2>
+<form method="POST" action="/api/auth/update?_method=PUT">
+    <p>Saisissez uniquement les champs à modifier</p>
+    <input type="text" name="id" placeholder="ID de l'utilisateur" required>
+    <input type="text" name="name" placeholder="Nouveau nom">
+    <input type="email" name="email" placeholder="Nouvel e-mail">
+    <input type="password" name="password" placeholder="Nouveau mot de passe">
+    <button type="submit">Modifier</button>
+</form>
+
+<!-- Formulaire pour supprimer un utilisateur -->
+<h2>Supprimer un utilisateur</h2>
+<form method="POST" action="/api/auth/delete?_method=DELETE">
+    <input type="text" name="id" placeholder="ID de l'utilisateur" required>
+    <button type="submit">Supprimer</button>
+</form>
+
+<!-- Formulaire pour créer un catway -->
+<h2>Créer un catway</h2>
+<form method="POST" action="/api/catways">
+    <input type="text" name="catwayNumber" placeholder="Numéro du catway" required>
+    <select name="type" required>
+        <option value="short">Short</option>
+        <option value="long">Long</option>
+    </select>
+    <input type="text" name="catwayState" placeholder="Statut" required>
+    <button type="submit">Créer</button>
+</form>
+
+<!-- Formulaire pour modifier un catway -->
+<h2>Modifier l'état d'un catway</h2>
+<form id="update-catway-form" method="POST" action="">
+    <input type="text" id="catwayId" name="id" placeholder="ID du catway" required>
+    <input type="text" name="catwayState" placeholder="Nouveau statut" required>
+    <button type="submit" id="update-button">Modifier</button>
+</form>
+
+<!-- Formulaire pour supprimer un catway -->
+<h2>Supprimer un catway</h2>
+<form id="delete-catway-form" method="POST" action="#">
+    <input type="text" id="catway-id" name="id" placeholder="ID du catway" required>
+    <button type="button" id="delete-catway-button">Supprimer</button>
+</form>
+
+<!-- Formulaire pour afficher les détails d’un catway -->
+<h2>Afficher les détails d'un catway</h2>
+<form id="get-catway-form">
+    <input type="text" id="catwayIdDetails" name="id" placeholder="ID du catway" required>
+    <button type="submit">Afficher</button>
+</form>
+
+<!-- Formulaire pour enregistrer une réservation -->
+<h2>Enregistrer une réservation</h2>
+<form method="POST" id="reservation-form" action="">
+    <input type="text" id="catwayIdReservation" placeholder="ID du catway" required>
+    <input type="text" name="clientName" placeholder="Nom du client" required>
+    <input type="text" name="boatName" placeholder="Nom du bateau" required>
+    <input type="date" name="checkIn" placeholder="Début de réservation" required>
+    <input type="date" name="checkOut" placeholder="Fin de réservation" required>
+    <button type="submit" id="reservation-button">Enregistrer</button>
+</form>
+
+<!-- Formulaire pour supprimer une réservation -->
+<h2>Supprimer une réservation</h2>
+<form method="POST" id="delete-reservation-form">
+    <input type="text" id="catwayIdDelete" placeholder="ID du catway" required>
+    <input type="text" id="reservationIdDelete" placeholder="ID de la réservation" required>
+    <button type="submit">Supprimer</button>
+</form>
+
+<!-- Formulaire pour afficher les détails d’une réservation -->
+<h2>Afficher les détails d'une réservation</h2>
+<form method="GET" id="get-reservation-form">
+    <input type="text" id="catwayIdDetailsReservations" placeholder="ID du catway" required>
+    <input type="text" id="reservationIdDetailsReservations" placeholder="ID de la réservation" required>
+    <button type="submit">Afficher</button>
+</form>
+
+<script>
+    //Modifier un Catway 
+    document.getElementById("update-button").addEventListener("click", function () {
+        const id = document.getElementById("catwayId").value;
+        if (id) {
+            // Redirige vers l'URL
+            const form = document.getElementById("update-catway-form");
+            form.action = `/api/catways/${id}?_method=PUT`;
+            form.method = "POST"; 
+            form.submit();
+        } else {
+            alert("Veuillez entrer un ID valide.");
+        }
+    });
+
+    //Supprimer un Catway
+    document.getElementById("delete-catway-button").addEventListener("click", function () {
+        const id = document.getElementById("catway-id").value;
+        if (id) {
+            // Redirige vers l'URL
+            const form = document.getElementById("delete-catway-form");
+            form.action = `/api/catways/${id}?_method=DELETE`;
+            form.method = "POST"; 
+            form.submit();
+        } else {
+            alert("Veuillez entrer un ID valide.");
+        }
+    });
+
+    //Afficher les détails d'un Catway
+    document.getElementById('get-catway-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const id = document.getElementById('catwayIdDetails').value; // Récupère l'ID saisi par l'utilisateur
+
+        if (!id) {
+            alert("Veuillez entrer un ID valide.");
+            return;
+        }
+
+        // Redirige vers l'URL dynamique
+        window.location.href = `/catways/${id}`;
+    });
+
+    // Créer une réservation
+    document.getElementById('reservation-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const catwayId = document.getElementById('catwayIdReservation').value.trim(); // Récupère l'ID du catway
+
+        if (!catwayId) {
+            alert("Veuillez saisir un ID valide pour le catway.");
+            return;
+        }
+
+        // Met à jour dynamiquement l'action du formulaire
+        const form = event.target;
+        form.action = `/api/catways/${catwayId}/reservations`;
+        form.submit();
+    });
+
+    // Supprimer une réservation
+    document.getElementById('delete-reservation-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const catwayId = document.getElementById('catwayIdDelete').value.trim();
+        const reservationId = document.getElementById('reservationIdDelete').value.trim();
+
+        if (!catwayId || !reservationId) {
+            alert("Veuillez saisir des IDs valides pour le catway et la réservation.");
+            return;
+        }
+
+        // Met à jour dynamiquement l'action du formulaire
+        const form = event.target;
+        form.action = `/api/catways/${catwayId}/reservations/${reservationId}?_method=DELETE`;
+        form.method = "POST"; // Utilisation de POST avec _method=DELETE pour Express
+        form.submit();
+    });
+
+    // Details d'une réservation
+    document.getElementById('get-reservation-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const catwayId = document.getElementById('catwayIdDetailsReservations').value.trim();
+        const reservationId = document.getElementById('reservationIdDetailsReservations').value.trim();
+
+        if (!catwayId || !reservationId) {
+            alert("Veuillez saisir des IDs valides pour le catway et la réservation.");
+            return;
+        }
+
+        // Met à jour dynamiquement l'action du formulaire 
+        const form = event.target;
+        form.action = `/reservations/${catwayId}/${reservationId}`;
+        form.submit();
+    });
+
+</script>

@@ -1,0 +1,111 @@
+<h1>Documentation de l'API</h1>
+
+<p>Bienvenue dans la documentation de l'API de gestion des catways et des réservations. Voici un aperçu des routes disponibles :</p>
+
+<!-- Section Catways -->
+<h2>1. Catways</h2>
+<ul>
+    <li>
+        <strong>GET /api/catways</strong> - Récupère tous les catways.
+        <p><strong>Réponse :</strong> Tableau d'objets de catways</p>
+    </li>
+    <li>
+        <strong>GET /api/catways/:id</strong> - Récupère un catway spécifique.
+        <p><strong>Paramètres :</strong> <code>id</code> - ID du catway</p>
+        <p><strong>Réponse :</strong> Objet du catway</p>
+    </li>
+    <li>
+        <strong>POST /api/catways</strong> - Crée un nouveau catway.
+        <p><strong>Corps :</strong></p>
+        <pre>
+            {
+            "catwayNumber": "123",
+            "type": "short",
+            "catwayState": "Disponible"
+            }
+        </pre>
+        <p><strong>Réponse :</strong> Objet du catway créé</p>
+    </li>
+    <li>
+        <strong>PUT /api/catways/:id</strong> - Met à jour un catway existant.
+        <p><strong>Paramètres :</strong> <code>id</code> - ID du catway</p>
+        <p><strong>Corps :</strong></p>
+        <pre>
+            {
+            "catwayState": "Occupé"
+            }
+        </pre>
+        <p><strong>Réponse :</strong> Objet du catway mis à jour</p>
+    </li>
+    <li>
+        <strong>DELETE /api/catways/:id</strong> - Supprime un catway existant.
+        <p><strong>Paramètres :</strong> <code>id</code> - ID du catway</p>
+        <p><strong>Réponse :</strong> Message de confirmation</p>
+    </li>
+</ul>
+
+<!-- Section Réservations -->
+<h2>2. Réservations</h2>
+<ul>
+    <li>
+        <strong>POST /api/catways/:id/reservations</strong> - Crée une réservation pour un catway.
+        <p><strong>Paramètres :</strong> <code>id</code> - ID du catway</p>
+        <p><strong>Corps :</strong></p>
+        <pre>
+            {
+            "_id": "673ef2641fe16d866b20b618",
+            "clientName": "John Doe",
+            "boatName": "Sea Explorer",
+            "checkIn": "2024-11-01",
+            "checkOut": "2024-11-15"
+            }
+        </pre>
+        <p><strong>Réponse :</strong> Objet de la réservation créée</p>
+    </li>
+    <li>
+        <strong>GET /api/catways/:id/reservations/:idReservation</strong> - Récupère une réservation spécifique.
+        <p><strong>Paramètres :</strong></p>
+        <ul>
+            <li><code>id</code> - ID du catway</li>
+            <li><code>idReservation</code> - ID de la réservation</li>
+        </ul>
+        <p><strong>Réponse :</strong> Objet de la réservation</p>
+    </li>
+    <li>
+        <strong>DELETE /api/catways/:id/reservations/:idReservation</strong> - Supprime une réservation.
+        <p><strong>Paramètres :</strong></p>
+        <ul>
+            <li><code>id</code> - ID du catway</li>
+            <li><code>idReservation</code> - ID de la réservation</li>
+        </ul>
+        <p><strong>Réponse :</strong> Message de confirmation</p>
+    </li>
+</ul>
+
+<!-- Section Authentification -->
+<h2>3. Authentification</h2>
+<ul>
+    <li>
+        <strong>POST /api/auth/login</strong> - Authentifie un utilisateur et retourne un token.
+        <p><strong>Corps :</strong></p>
+        <pre>
+            {
+            "email": "admin@example.com",
+            "password": "123456"
+            }
+        </pre>
+        <p><strong>Réponse :</strong> Token JWT</p>
+    </li>
+    <li>
+        <strong>POST /api/auth/register</strong> - Créer un nouveau utilisateur.
+        <p><strong>Corps :</strong></p>
+        <pre>
+            {
+            "name": "Alice",
+            "email": "alice@example.com",
+            "password": "123"
+            }
+        </pre>
+        <p><strong>Réponse :</strong> Message de confirmation</p>
+    </li>
+</ul>

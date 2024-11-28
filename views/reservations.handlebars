@@ -1,0 +1,9 @@
+<h1>Liste des Réservations</h1>
+<ul>
+    {{#each reservations}}
+    <li>
+        <strong>Client :</strong> {{this.clientName}}, <strong>Catway :</strong> {{this.catwayNumber}},
+        <a href="/reservations/{{this.catwayNumber}}/{{this._id}}">Voir les détails</a>
+    </li>
+    {{/each}}
+</ul>
